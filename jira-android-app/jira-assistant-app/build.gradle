@@ -1,20 +1,39 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
+def buildNumber = 1
+def appVersionName = "1.0.0"
+
 android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "ar.com.simbya.jiraassistant"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode buildNumber
+        versionName appVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(JIRA_ASSISTANT_RELEASE_STORE_FILE)
+            storePassword JIRA_ASSISTANT_RELEASE_STORE_PASSWORD
+            keyAlias JIRA_ASSISTANT_RELEASE_KEY_ALIAS
+            keyPassword JIRA_ASSISTANT_RELEASE_KEY_PASSWORD
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "../../jira-assistant-app-build_${buildNumber}-v${variant.versionName}-${variant.name}.apk"
         }
     }
 }
