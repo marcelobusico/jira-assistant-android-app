@@ -10,7 +10,7 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:text="@string/settings"
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,12 +27,14 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="Jira Server"
+        android:hint="@string/jira_server"
         android:inputType="textUri"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelAlwaysShown="true" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/usernameEditText"
@@ -41,13 +43,15 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="Username"
+        android:hint="@string/username"
         android:inputType="text"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/jiraServerEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/jiraServerEditText"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelAlwaysShown="true" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/passwordEditText"
@@ -56,13 +60,15 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/usernameEditText"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelAlwaysShown="true" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/filterIdEditText"
@@ -70,11 +76,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:hint="Jira Filter ID"
+        android:hint="@string/jira_filter_id"
         android:inputType="number"
         android:singleLine="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelAlwaysShown="true" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/sprintCapacityPerPersonEditText"
@@ -82,12 +90,14 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
-        android:hint="Sprint Capacity/Person"
+        android:hint="@string/sprint_capacity_person"
         android:inputType="number"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/filterIdEditText"
-        app:layout_constraintTop_toTopOf="@+id/filterIdEditText" />
+        app:layout_constraintTop_toTopOf="@+id/filterIdEditText"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelAlwaysShown="true" />
 
     <Button
         android:id="@+id/continueButton"
@@ -98,7 +108,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:background="@color/colorPrimary"
-        android:text="Continue"
+        android:text="@string/button_continue"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

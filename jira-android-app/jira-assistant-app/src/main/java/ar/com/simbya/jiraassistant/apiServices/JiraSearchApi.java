@@ -9,11 +9,7 @@ import retrofit2.http.Query;
 
 public interface JiraSearchApi {
 
-    @Headers({
-            "Content-Type: application/json",
-    })
     @GET("rest/api/2/search")
     Call<IssueListModel> searchIssues(
-            @Header("Authorization") String authorization,
             @Query("jql") String jql);
 }

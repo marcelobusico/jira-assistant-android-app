@@ -29,7 +29,7 @@
         </activity>
 
         <activity
-            android:name=".activities.ResultActivity"
+            android:name=".features.sprintplanning.SprintPlanningActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -12,6 +12,7 @@ import com.crashlytics.android.Crashlytics;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import ar.com.simbya.jiraassistant.R;
+import ar.com.simbya.jiraassistant.features.sprintplanning.SprintPlanningActivity;
 import ar.com.simbya.jiraassistant.preferences.AppPreferencesLoader;
 import ar.com.simbya.jiraassistant.preferences.AppPreferencesModel;
 import io.fabric.sdk.android.Fabric;
@@ -74,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
 
             appPreferencesLoader.saveAppPreferences(appPreferencesModel);
 
-            Intent intent = new Intent(this, ResultActivity.class);
+            Intent intent = new Intent(this, SprintPlanningActivity.class);
             startActivity(intent);
         } catch (Exception ex) {
             displayMessage("Error", "Please check all entered data and try again.");

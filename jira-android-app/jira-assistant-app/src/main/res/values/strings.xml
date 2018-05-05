@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Jira Assistant</string>
+
+    <string name="message_title_error">Error</string>
+    <string name="message_load_issues_error">Error loading issues. Please try again later.</string>
+
+    <string name="suffix_hours">Hs</string>
+    <string name="settings">Settings</string>
+    <string name="jira_server">Jira Server</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="jira_filter_id">Jira Filter ID</string>
+    <string name="sprint_capacity_person">Sprint Capacity/Person</string>
+    <string name="button_continue">Continue</string>
+
+    <plurals name="suffix_issues">
+        <item quantity="zero">Issues</item>
+        <item quantity="one">Issue</item>
+        <item quantity="other">Issues</item>
+    </plurals>
 </resources>
