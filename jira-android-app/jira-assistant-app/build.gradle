@@ -7,12 +7,22 @@ def appVersionName = "1.0.0"
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "ar.com.simbya.jiraassistant"
+
         minSdkVersion 19
         targetSdkVersion 27
         versionCode buildNumber
-        versionName appVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions "environment"
+
+    productFlavors {
+        production {
+            dimension "environment"
+
+            applicationId "ar.com.simbya.jiraassistant"
+            versionName appVersionName
+        }
     }
 
     buildTypes {
