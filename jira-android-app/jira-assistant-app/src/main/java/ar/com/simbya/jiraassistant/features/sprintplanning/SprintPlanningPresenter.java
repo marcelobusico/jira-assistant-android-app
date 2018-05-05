@@ -106,7 +106,7 @@ public class SprintPlanningPresenter {
                     view.hideLoading();
                     view.displayMessage(
                             context.getString(R.string.message_title_error),
-                            context.getString(R.string.message_load_issues_error));
+                            context.getString(R.string.message_load_issues_error) + "\n\n" + error.getMessage());
                 }
                 isLoading = false;
             }

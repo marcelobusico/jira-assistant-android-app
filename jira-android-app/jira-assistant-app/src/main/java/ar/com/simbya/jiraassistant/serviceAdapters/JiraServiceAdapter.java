@@ -36,7 +36,11 @@ public class JiraServiceAdapter {
 
                         @Override
                         public void onResponse(Call<IssueListModel> call, Response<IssueListModel> response) {
-                            completionHandler.onComplete(response.body());
+                            if (response.code() == 200) {
+                                completionHandler.onComplete(response.body());
+                            } else {
+                                completionHandler.onError(new IllegalStateException(response.message()));
+                            }
                         }
 
                         @Override
