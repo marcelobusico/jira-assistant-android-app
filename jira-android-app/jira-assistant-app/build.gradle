@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
-def buildNumber = 1
-def appVersionName = "1.0.0"
+def buildNumber = 2
+def appVersionName = "1.0.1"
 
 android {
     compileSdkVersion 27

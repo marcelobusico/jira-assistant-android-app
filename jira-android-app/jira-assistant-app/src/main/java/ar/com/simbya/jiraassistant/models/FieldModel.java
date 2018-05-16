@@ -3,10 +3,12 @@ package ar.com.simbya.jiraassistant.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class FieldModel implements Serializable {
 
     private PersonModel assignee;
+    private List<IssueModel> subtasks;
 
     @SerializedName("timeoriginalestimate")
     private Integer originalEstimate;
@@ -32,6 +34,14 @@ public class FieldModel implements Serializable {
 
     public void setAssignee(PersonModel assignee) {
         this.assignee = assignee;
+    }
+
+    public List<IssueModel> getSubtasks() {
+        return subtasks;
+    }
+
+    public void setSubtasks(List<IssueModel> subtasks) {
+        this.subtasks = subtasks;
     }
 
     public Integer getOriginalEstimate() {

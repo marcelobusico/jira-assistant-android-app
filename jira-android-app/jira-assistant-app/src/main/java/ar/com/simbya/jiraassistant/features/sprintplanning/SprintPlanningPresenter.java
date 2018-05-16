@@ -26,10 +26,10 @@ public class SprintPlanningPresenter {
     private List<SprintPlanningPersonViewModel> viewModelList;
     private boolean isLoading = false;
 
-    public SprintPlanningPresenter(@NonNull WeakReference<SprintPlanningView> viewReference,
-                                   @NonNull WeakReference<Context> contextReference,
-                                   @NonNull AppPreferencesLoader appPreferencesLoader,
-                                   @NonNull JiraServiceAdapter serviceAdapter) {
+    SprintPlanningPresenter(@NonNull WeakReference<SprintPlanningView> viewReference,
+                            @NonNull WeakReference<Context> contextReference,
+                            @NonNull AppPreferencesLoader appPreferencesLoader,
+                            @NonNull JiraServiceAdapter serviceAdapter) {
 
         this.viewReference = viewReference;
         this.contextReference = contextReference;
@@ -39,12 +39,12 @@ public class SprintPlanningPresenter {
 
     public void start() {
         if (numberOfElements() == 0 && !isLoading) {
-            loadLessonsAsync(true);
+            searchIssuesAsync(true);
         }
     }
 
     public void refresh(boolean screenLoading) {
-        loadLessonsAsync(screenLoading);
+        searchIssuesAsync(screenLoading);
     }
 
     public int numberOfElements() {
@@ -64,11 +64,10 @@ public class SprintPlanningPresenter {
             return null;
         }
 
-        SprintPlanningPersonViewModel viewModel = viewModelList.get(position);
-        return viewModel;
+        return viewModelList.get(position);
     }
 
-    private void loadLessonsAsync(boolean screenLoading) {
+    private void searchIssuesAsync(boolean screenLoading) {
         if (isLoading) {
             return;
         }
@@ -84,13 +83,14 @@ public class SprintPlanningPresenter {
             }
         }
 
-        serviceAdapter.searchIssues(new JiraServiceAdapter.SearchIssuesCompletionHandler() {
+        serviceAdapter.searchIssues(true, new JiraServiceAdapter.SearchIssuesCompletionHandler() {
 
             @Override
-            public void onComplete(IssueListModel lessonModelList) {
-                generateViewModelList(lessonModelList);
+            public void onComplete(IssueListModel issueListModel) {
+                generateViewModelList(issueListModel);
                 SprintPlanningView view = viewReference.get();
-                if (view != null) {
+                Context context = contextReference.get();
+                if (view != null && context != null) {
                     view.hideLoading();
                     view.refreshIssuesList();
                 }
@@ -125,12 +125,10 @@ public class SprintPlanningPresenter {
         //Group issues by person
         Map<PersonModel, List<IssueModel>> issuesByPerson = new HashMap<>();
         for (IssueModel issueModel : issueListModel.getIssues()) {
-            List<IssueModel> issueModelList = issuesByPerson.get(issueModel.getFields().getAssignee());
-            if (issueModelList == null) {
-                issueModelList = new LinkedList<>();
+            addIssueByPerson(issuesByPerson, issueModel);
+            for (IssueModel subTaskIssueModel : issueModel.getFields().getSubtasks()) {
+                addIssueByPerson(issuesByPerson, subTaskIssueModel);
             }
-            issueModelList.add(issueModel);
-            issuesByPerson.put(issueModel.getFields().getAssignee(), issueModelList);
         }
 
         for (Map.Entry<PersonModel, List<IssueModel>> personAndIssue : issuesByPerson.entrySet()) {
@@ -138,8 +136,13 @@ public class SprintPlanningPresenter {
             PersonModel person = personAndIssue.getKey();
             List<IssueModel> issues = personAndIssue.getValue();
 
-            viewModel.setPersonImageUrl(person.getAvatarUrls().getAvatarUrl());
-            viewModel.setPersonName(person.getDisplayName());
+            if (person == null) {
+                viewModel.setPersonName("Unassigned");
+            } else {
+                viewModel.setPersonImageUrl(person.getAvatarUrls().getAvatarUrl());
+                viewModel.setPersonName(person.getDisplayName());
+            }
+
             viewModel.setCurrentlyAssignedTasks(issues.size());
 
             int totalSeconds = 0;
@@ -150,22 +153,13 @@ public class SprintPlanningPresenter {
                 if (issue.getFields().getOriginalEstimate() != null) {
                     totalSeconds += issue.getFields().getOriginalEstimate();
                 }
-                if (issue.getFields().getSubtasksOriginalEstimate() != null) {
-                    totalSeconds += issue.getFields().getSubtasksOriginalEstimate();
-                }
 
                 if (issue.getFields().getTimeSpent() != null) {
                     progressSeconds += issue.getFields().getTimeSpent();
                 }
-                if (issue.getFields().getSubtasksTimeSpent() != null) {
-                    progressSeconds += issue.getFields().getSubtasksTimeSpent();
-                }
 
                 if (issue.getFields().getRemainingEstimate() != null) {
                     remainingSeconds += issue.getFields().getRemainingEstimate();
-                }
-                if (issue.getFields().getSubtasksRemainingEstimate() != null) {
-                    remainingSeconds += issue.getFields().getSubtasksRemainingEstimate();
                 }
             }
 
@@ -176,5 +170,14 @@ public class SprintPlanningPresenter {
 
             viewModelList.add(viewModel);
         }
+    }
+
+    private void addIssueByPerson(Map<PersonModel, List<IssueModel>> issuesByPerson, IssueModel issueModel) {
+        List<IssueModel> issueModelList = issuesByPerson.get(issueModel.getFields().getAssignee());
+        if (issueModelList == null) {
+            issueModelList = new LinkedList<>();
+        }
+        issueModelList.add(issueModel);
+        issuesByPerson.put(issueModel.getFields().getAssignee(), issueModelList);
     }
 }
